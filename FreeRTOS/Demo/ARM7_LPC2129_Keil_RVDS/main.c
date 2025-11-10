@@ -2,6 +2,10 @@
 #include "task.h"
 #include "led.h"
 
+TaskHandle_t xLedBlinkHandle = NULL;
+
+
+
 typedef struct{
 	unsigned char ucBlinkingFreq;
 	unsigned char ucLedNr;
@@ -16,28 +20,28 @@ void LedBlink( void *pvParameters ){
 }
 
 void LedCtrl (void *pvChangingFreq){
-	Led_Control *pxCtrl = (Led_Control*)pvChangingFreq;
-	unsigned char ucCounter = 0;
+	
 	while(1){
-		vTaskDelay(1000);
-		pxCtrl -> ucBlinkingFreq =(pxCtrl -> ucBlinkingFreq + 1);
-		ucCounter++;
-			if (ucCounter %2){
-				pxCtrl -> ucLedNr = ((pxCtrl -> ucLedNr + 1) %4);
-			}
-			else{}
+		vTaskSuspend(xLedBlinkHandle);
+		vTaskDelay (1000);
+		vTaskResume(xLedBlinkHandle);
+		vTaskDelay (1000);
+
 	}
+	
 
 	
 }
+
+
 
 
 int main( void )
 {
 	Led_Control Led = {1,0};
 	Led_Init();
-	xTaskCreate(LedBlink, NULL , 100 , &Led, 2 , NULL );
-	xTaskCreate(LedCtrl, NULL , 100 , &Led, 2 , NULL );
+	xTaskCreate(LedBlink, NULL , 100 , &Led, 2 , &xLedBlinkHandle );
+	xTaskCreate(LedCtrl, NULL ,100 ,&Led ,2 ,NULL);
 	vTaskStartScheduler();
 	while(1);
 }
