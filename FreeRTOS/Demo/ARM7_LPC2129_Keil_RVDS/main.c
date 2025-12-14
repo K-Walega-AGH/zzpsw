@@ -34,7 +34,16 @@ void Pulse_LED_0 (void *pvParameters){
 	}
 }
 
+void Pulse_LED_1 (void *pvParameters){
+	while(1){
+			if(xSemaphoreTake(xSemaphore,portMAX_DELAY) == pdTRUE ){
+				LedOn(1);
+				vTaskDelay(100);
+				LedOff(1);
 
+		}		
+	}
+}
 
 
 int main( void )
@@ -44,6 +53,7 @@ int main( void )
 	xTaskCreate(PulseTrigger, NULL , 100 ,NULL , 2 , NULL );
 	xTaskCreate(SecondPulseTrigger, NULL , 100 ,NULL , 2 , NULL );
 	xTaskCreate(Pulse_LED_0, NULL ,100 ,NULL ,2 ,NULL);
+	xTaskCreate(Pulse_LED_1, NULL ,100 ,NULL ,2 ,NULL);
 	vTaskStartScheduler();
 	while(1);
 }
