@@ -3,20 +3,32 @@
 #include "uart.h"
 #include "string.h"
 #include "keyboard.h"
+#include "semphr.h"
+
+xSemaphoreHandle xSemaphore;
+
 
 void LettersTx (void *pvParameters){
 while(1){
-	Transmiter_SendString("-ABCDEEFGH-\n");
-	while (Transmiter_GetStatus()!=FREE){};
+	if ((xSemaphoreTake(xSemaphore,portMAX_DELAY) == pdTRUE )) {
+		Transmiter_SendString("-ABCDEEFGH-\n");
+	while (Transmiter_GetStatus()!=FREE){		
+		
+	};
+	xSemaphoreGive(xSemaphore);
 	vTaskDelay(300);
+		}
 	}
 }
 
 void KeyboardTx (void *pvParameters){
 while(1){
-		if(eKeyboardRead() != RELASED){
-			Transmiter_SendString("Keyboard-\n");
-		while (Transmiter_GetStatus()!=FREE){};
+		if((eKeyboardRead() != RELASED) && (xSemaphoreTake(xSemaphore,portMAX_DELAY) == pdTRUE )){
+			Transmiter_SendString("-Keyboard-\n");
+		while (Transmiter_GetStatus()!=FREE){
+				
+	};
+		xSemaphoreGive(xSemaphore);
 		vTaskDelay(300);
 		}
 	}
@@ -26,6 +38,7 @@ while(1){
 int main( void ){
 UART_InitWithInt(300);
 KeyboardInit();
+vSemaphoreCreateBinary( xSemaphore );
 xTaskCreate(LettersTx, NULL, 128, NULL, 1, NULL );
 xTaskCreate(KeyboardTx, NULL, 128, NULL, 1, NULL );
 vTaskStartScheduler();
