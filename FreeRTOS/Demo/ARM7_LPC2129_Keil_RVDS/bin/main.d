@@ -13,3 +13,4 @@
 .\bin\main.o: ..\..\Source\include\list.h
 .\bin\main.o: uart.h
 .\bin\main.o: string.h
+.\bin\main.o: keyboard.h
