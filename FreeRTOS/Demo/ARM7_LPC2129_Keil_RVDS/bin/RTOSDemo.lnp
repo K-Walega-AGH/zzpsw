@@ -2,6 +2,8 @@
 ".\bin\startup.o"
 ".\bin\main.o"
 ".\bin\led.o"
+".\bin\uart.o"
+".\bin\string.o"
 ".\bin\tasks.o"
 ".\bin\list.o"
 ".\bin\queue.o"

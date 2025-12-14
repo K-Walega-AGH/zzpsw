@@ -1,53 +1,18 @@
 #include "FreeRTOS.h"
 #include "task.h"
-#include "led.h"
-#include "semphr.h"
+#include "uart.h"
+#include "string.h"
 
-xSemaphoreHandle xSemaphore;
-
-void PulseTrigger (void *pvParameters){
-	while(1){
-		vTaskDelay(1000);
-		xSemaphoreGive(xSemaphore);
-
-	}
+void LettersTx (void *pvParameters){
+while(1){
+Transmiter_SendString("-ABCDEEFGH-\n");
+while (Transmiter_GetStatus()!=FREE){};
+vTaskDelay(300);
 }
-
-void SecondPulseTrigger (void *pvParameters){
-	vTaskDelay(333);
-	while(1){
-		vTaskDelay(333);
-		xSemaphoreGive(xSemaphore);
-
-	}
 }
-
-
-void Pulse_LED(void *pvParameters){
-	unsigned char ucLedCtr = *((unsigned char*)pvParameters);
-	while(1){
-			if(xSemaphoreTake(xSemaphore,portMAX_DELAY) == pdTRUE ){
-				LedOn(ucLedCtr);
-				vTaskDelay(100);
-				LedOff(ucLedCtr);
-
-		}		
-	}	
+int main( void ){
+UART_InitWithInt(9600);
+xTaskCreate(LettersTx, NULL, 128, NULL, 1, NULL );
+vTaskStartScheduler();
+while(1);
 }
-
-
-
-int main( void )
-{
-	static unsigned char ucLed_0 = 0;
-	static unsigned char ucLed_1 = 1;
-	vSemaphoreCreateBinary( xSemaphore );
-	Led_Init();
-	xTaskCreate(PulseTrigger, NULL , 100 ,NULL , 2 , NULL );
-	xTaskCreate(SecondPulseTrigger, NULL , 100 ,NULL , 2 , NULL );
-	xTaskCreate(Pulse_LED, NULL ,100 ,&ucLed_0 ,2 ,NULL);
-	xTaskCreate(Pulse_LED, NULL ,100 ,&ucLed_1 ,2 ,NULL);
-	vTaskStartScheduler();
-	while(1);
-}
-
