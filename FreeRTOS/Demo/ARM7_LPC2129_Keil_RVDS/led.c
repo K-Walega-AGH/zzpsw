@@ -37,6 +37,30 @@ void LedOn(unsigned char ucLedIndeks)
 	}
 }
 
+void LedOff(unsigned char ucLedIndeks)
+{
+	IO1CLR |= LED0_BM | LED1_BM | LED2_BM | LED3_BM;
+	
+	switch (ucLedIndeks)
+	{
+		case 0:
+				IO1CLR |= LED0_BM;
+				break;
+		case 1:
+				IO1CLR |= LED1_BM;
+				break;
+		case 2:
+				IO1CLR |= LED2_BM;
+				break;
+		case 3:
+				IO1CLR |= LED3_BM;
+				break;
+		default:
+				break;
+	}
+}
+
+
 void LedStep(enum Direction Dir)
 {
 	static unsigned int steps;

@@ -1,47 +1,36 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "led.h"
+#include "semphr.h"
 
-TaskHandle_t xLedBlinkHandle = NULL;
+xSemaphoreHandle xSemaphore;
 
-
-
-typedef struct{
-	unsigned char ucBlinkingFreq;
-	unsigned char ucLedNr;
-}Led_Control;
-
-void LedBlink( void *pvParameters ){
-		Led_Control *pxCtrl = (Led_Control*)pvParameters;
+void PulseTrigger (void *pvParameters){
 	while(1){
-		Led_Toggle(pxCtrl->ucLedNr);
-		vTaskDelay((1000/(pxCtrl->ucBlinkingFreq))/2);
+		vTaskDelay(1000);
+		xSemaphoreGive(xSemaphore);
+
 	}
 }
 
-void LedCtrl (void *pvChangingFreq){
-	
+void Pulse_LED_0 (void *pvParameters){
 	while(1){
-		vTaskSuspend(xLedBlinkHandle);
-		vTaskDelay (1000);
-		vTaskResume(xLedBlinkHandle);
-		vTaskDelay (1000);
+			if(xSemaphoreTake(xSemaphore,portMAX_DELAY) == pdTRUE ){
+				LedOn(0);
+				vTaskDelay(100);
+				LedOff(0);
 
+		}		
 	}
-	
-
-	
 }
-
-
 
 
 int main( void )
 {
-	Led_Control Led = {1,0};
+	vSemaphoreCreateBinary( xSemaphore );
 	Led_Init();
-	xTaskCreate(LedBlink, NULL , 100 , &Led, 2 , &xLedBlinkHandle );
-	xTaskCreate(LedCtrl, NULL ,100 ,&Led ,2 ,NULL);
+	xTaskCreate(PulseTrigger, NULL , 100 ,NULL , 2 , NULL );
+	xTaskCreate(Pulse_LED_0, NULL ,100 ,NULL ,2 ,NULL);
 	vTaskStartScheduler();
 	while(1);
 }
