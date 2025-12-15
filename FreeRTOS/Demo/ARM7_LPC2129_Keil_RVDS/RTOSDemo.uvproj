@@ -417,6 +417,11 @@
               <FileType>1</FileType>
               <FilePath>.\string.c</FilePath>
             </File>
+            <File>
+              <FileName>keyboard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\keyboard.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -866,6 +871,11 @@
               <FileName>string.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\string.c</FilePath>
+            </File>
+            <File>
+              <FileName>keyboard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\keyboard.c</FilePath>
             </File>
           </Files>
         </Group>

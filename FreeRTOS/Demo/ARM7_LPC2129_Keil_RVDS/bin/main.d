@@ -11,8 +11,9 @@
 .\bin\main.o: ..\..\Source\include\mpu_wrappers.h
 .\bin\main.o: ..\..\Source\include\task.h
 .\bin\main.o: ..\..\Source\include\list.h
-.\bin\main.o: uart.h
 .\bin\main.o: string.h
+.\bin\main.o: uart.h
 .\bin\main.o: keyboard.h
 .\bin\main.o: ..\..\Source\include\semphr.h
 .\bin\main.o: ..\..\Source\include\queue.h
+.\bin\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
