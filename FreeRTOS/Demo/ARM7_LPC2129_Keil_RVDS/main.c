@@ -17,14 +17,16 @@ void Rtos_Transmiter_SendString (char cString[]){
 
 void LettersTx (void *pvParameters){
 	char cBuffer[22];
-	unsigned short int usiPassedTime=0;
+	unsigned int uiPassedTime=0;
 	while(1){
-		usiPassedTime = (unsigned short int)xTaskGetTickCount();
+		uiPassedTime = (unsigned int)xTaskGetTickCount();
 		Rtos_Transmiter_SendString(cBuffer);
-		usiPassedTime = (unsigned short int)xTaskGetTickCount() - usiPassedTime;
+		uiPassedTime = (unsigned int)xTaskGetTickCount() - uiPassedTime;
 		CopyString("-ABCDEEFGH-:",cBuffer);
-		AppendUIntToString(usiPassedTime,cBuffer);
+		AppendUIntToString(uiPassedTime,cBuffer);
 		AppendString("\n",cBuffer);
+		
+		
 		vTaskDelay(300);
 	}
 }
@@ -37,7 +39,7 @@ void KeyboardTx (void *pvParameters) {
 			Rtos_Transmiter_SendString("-Keyboard-\n");
 		}
 		eLastState = eKeyboardRead();
-		vTaskDelay(30);
+		vTaskDelay(300);
 	}
 }
 
