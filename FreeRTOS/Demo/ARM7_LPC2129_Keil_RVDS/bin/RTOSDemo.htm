@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\bin\RTOSDemo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\bin\RTOSDemo.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Sat Dec 27 19:25:27 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Sun Dec 28 23:36:07 2025
 <BR><P>
 <H3>Maximum Stack Usage =        240 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -14,7 +14,7 @@ Functions with no stack information
 </H3><UL>
  <LI><a href="#[3]">Reset_Handler</a>
  <LI><a href="#[85]">__user_initial_stackheap</a>
- <LI><a href="#[7c]">vPortStartFirstTask</a>
+ <LI><a href="#[7b]">vPortStartFirstTask</a>
  <LI><a href="#[43]">vPortYield</a>
  <LI><a href="#[5]">vPortYieldProcessor</a>
  <LI><a href="#[11]">vPreemptiveTick</a>
@@ -41,12 +41,12 @@ Function Pointers
  <LI><a href="#[7]">DAbt_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[9]">FIQ_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[8]">IRQ_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
- <LI><a href="#[e]">KeyboardTx</a> from main.o(.text) referenced from main.o(.text)
- <LI><a href="#[d]">LettersTx</a> from main.o(.text) referenced from main.o(.text)
+ <LI><a href="#[d]">KeyboardTx</a> from main.o(.text) referenced from main.o(.text)
+ <LI><a href="#[c]">LettersTx</a> from main.o(.text) referenced from main.o(.text)
  <LI><a href="#[6]">PAbt_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[3]">Reset_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
+ <LI><a href="#[e]">Rtos_Transmiter_SendString</a> from main.o(.text) referenced from main.o(.text)
  <LI><a href="#[f]">UART0_Interrupt</a> from uart.o(.text) referenced from uart.o(.text)
- <LI><a href="#[c]">UartTxTask</a> from main.o(.text) referenced from main.o(.text)
  <LI><a href="#[4]">Undef_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[14]">__main</a> from __main.o(!!!main) referenced from startup.o(RESET)
  <LI><a href="#[b]">main</a> from main.o(.text) referenced from rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
@@ -190,45 +190,47 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[c]"></a>UartTxTask</STRONG> (Thumb, 40 bytes, Stack size 32 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 124 + Unknown Stack Size
-<LI>Call Chain = UartTxTask &rArr; xQueueReceive &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
+<P><STRONG><a name="[e]"></a>Rtos_Transmiter_SendString</STRONG> (Thumb, 66 bytes, Stack size 32 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 132 + Unknown Stack Size
+<LI>Call Chain = Rtos_Transmiter_SendString &rArr; xQueueGenericSend &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
-<BR>[Calls]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
-<LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTransmiter_GetStatus
-<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Transmiter_SendString
+<BR>[Calls]<UL><LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
+<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
+<LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTransmiter_GetStatus
+<LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Transmiter_SendString
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[d]"></a>LettersTx</STRONG> (Thumb, 66 bytes, Stack size 32 bytes, main.o(.text))
+<P><STRONG><a name="[c]"></a>LettersTx</STRONG> (Thumb, 66 bytes, Stack size 32 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 132 + Unknown Stack Size
 <LI>Call Chain = LettersTx &rArr; xQueueGenericSend &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
-<BR>[Calls]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
+<BR>[Calls]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
-<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
-<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendUIntToString
-<LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendString
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
+<LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
+<LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendUIntToString
+<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendString
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[e]"></a>KeyboardTx</STRONG> (Thumb, 58 bytes, Stack size 32 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 132 + Unknown Stack Size
+<P><STRONG><a name="[d]"></a>KeyboardTx</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 100 + Unknown Stack Size
 <LI>Call Chain = KeyboardTx &rArr; xQueueGenericSend &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4 (via Veneer)
-<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
+<BR>[Calls]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 <LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eKeyboardRead
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[b]"></a>main</STRONG> (Thumb, 92 bytes, Stack size 8 bytes, main.o(.text))
+<P><STRONG><a name="[b]"></a>main</STRONG> (Thumb, 132 bytes, Stack size 8 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240 + Unknown Stack Size
 <LI>Call Chain = main &rArr; vTaskStartScheduler &rArr; prvCreateIdleTasks &rArr; xTaskCreate &rArr; prvCreateTask &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCreate
+<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 <LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericCreate
 <LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskStartScheduler
 <LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InitWithInt
@@ -255,19 +257,19 @@ Global Symbols
 <P><STRONG><a name="[ac]"></a>eReciever_GetStatus</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, uart.o(.text), UNUSED)
 
 <P><STRONG><a name="[33]"></a>Reciever_GetStringCopy</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, uart.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
+<BR><BR>[Calls]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
 </UL>
 
-<P><STRONG><a name="[24]"></a>Transmiter_SendString</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, uart.o(.text))
+<P><STRONG><a name="[25]"></a>Transmiter_SendString</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, uart.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Transmiter_SendString
 </UL>
-<BR>[Calls]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
+<BR>[Calls]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartTxTask
+<BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Rtos_Transmiter_SendString
 </UL>
 
-<P><STRONG><a name="[25]"></a>eTransmiter_GetStatus</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, uart.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartTxTask
+<P><STRONG><a name="[26]"></a>eTransmiter_GetStatus</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, uart.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Rtos_Transmiter_SendString
 </UL>
 
 <P><STRONG><a name="[f]"></a>UART0_Interrupt</STRONG> (ARM, 108 bytes, Stack size 28 bytes, uart.o(.text))
@@ -278,21 +280,21 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> uart.o(.text)
 </UL>
-<P><STRONG><a name="[28]"></a>CopyString</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, string.o(.text))
+<P><STRONG><a name="[29]"></a>CopyString</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, string.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[33]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reciever_GetStringCopy
-<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Transmiter_SendString
-<LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendString
-<LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
+<LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Transmiter_SendString
+<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendString
+<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
 </UL>
 
 <P><STRONG><a name="[ad]"></a>eCompareString</STRONG> (Thumb, 58 bytes, Stack size 4 bytes, string.o(.text), UNUSED)
 
-<P><STRONG><a name="[2a]"></a>AppendString</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, string.o(.text))
+<P><STRONG><a name="[2b]"></a>AppendString</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, string.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = AppendString
 </UL>
-<BR>[Calls]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
+<BR>[Calls]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
+<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
 </UL>
 
 <P><STRONG><a name="[ae]"></a>ReplaceCharactersInString</STRONG> (Thumb, 32 bytes, Stack size 4 bytes, string.o(.text), UNUSED)
@@ -300,17 +302,17 @@ Global Symbols
 <P><STRONG><a name="[36]"></a>UIntToHexStr</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, string.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = UIntToHexStr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendUIntToString
+<BR>[Called By]<UL><LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendUIntToString
 </UL>
 
 <P><STRONG><a name="[af]"></a>eHexStringToUInt</STRONG> (Thumb, 112 bytes, Stack size 8 bytes, string.o(.text), UNUSED)
 
-<P><STRONG><a name="[29]"></a>AppendUIntToString</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, string.o(.text))
+<P><STRONG><a name="[2a]"></a>AppendUIntToString</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, string.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = AppendUIntToString &rArr; UIntToHexStr
 </UL>
 <BR>[Calls]<UL><LI><a href="#[36]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UIntToHexStr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
+<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
 </UL>
 
 <P><STRONG><a name="[b0]"></a>ReadButton1</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, keyboard.o(.text), UNUSED)
@@ -318,7 +320,7 @@ Global Symbols
 <P><STRONG><a name="[b1]"></a>KeyboardInit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, keyboard.o(.text), UNUSED)
 
 <P><STRONG><a name="[2d]"></a>eKeyboardRead</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, keyboard.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KeyboardTx
+<BR><BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KeyboardTx
 </UL>
 
 <P><STRONG><a name="[30]"></a>xTaskCreate</STRONG> (Thumb, 54 bytes, Stack size 48 bytes, tasks.o(.text))
@@ -363,31 +365,31 @@ Global Symbols
 <LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
 <LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvResetNextTaskUnblockTime
 </UL>
-<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
 <LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortFree
 <LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortMalloc
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGenericNotifyWait
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ulTaskGenericNotifyTake
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCatchUpTicks
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskDelayUntil
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 </UL>
 
 <P><STRONG><a name="[4d]"></a>vTaskSuspendAll</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, tasks.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR><BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
 <LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortFree
 <LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortMalloc
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGenericNotifyWait
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ulTaskGenericNotifyTake
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCatchUpTicks
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskDelayUntil
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 </UL>
 
 <P><STRONG><a name="[4c]"></a>xTaskDelayUntil</STRONG> (Thumb, 98 bytes, Stack size 32 bytes, tasks.o(.text), UNUSED)
@@ -397,7 +399,7 @@ Global Symbols
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddCurrentTaskToDelayedList
 </UL>
 
-<P><STRONG><a name="[2b]"></a>vTaskDelay</STRONG> (Thumb, 42 bytes, Stack size 16 bytes, tasks.o(.text))
+<P><STRONG><a name="[2c]"></a>vTaskDelay</STRONG> (Thumb, 42 bytes, Stack size 16 bytes, tasks.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64 + Unknown Stack Size
 <LI>Call Chain = vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
@@ -406,8 +408,8 @@ Global Symbols
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddCurrentTaskToDelayedList
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KeyboardTx
-<LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
+<BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KeyboardTx
+<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
 </UL>
 
 <P><STRONG><a name="[4e]"></a>uxTaskPriorityGet</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, tasks.o(.text), UNUSED)
@@ -471,19 +473,19 @@ Global Symbols
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCheckTasksWaitingTermination
 </UL>
 
-<P><STRONG><a name="[26]"></a>xTaskGetTickCount</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, tasks.o(.text))
+<P><STRONG><a name="[28]"></a>xTaskGetTickCount</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, tasks.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = xTaskGetTickCount &rArr; vPortExitCritical
 </UL>
 <BR>[Calls]<UL><LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortExitCritical
 <LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortEnterCritical
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
+<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
 </UL>
 
 <P><STRONG><a name="[b3]"></a>xTaskGetTickCountFromISR</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, tasks.o(.text), UNUSED)
 
 <P><STRONG><a name="[70]"></a>uxTaskGetNumberOfTasks</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tasks.o(.text), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceiveFromISR
+<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceiveFromISR
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGiveFromISR
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSendFromISR
 </UL>
@@ -503,8 +505,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vListInsert
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddCurrentTaskToDelayedList
 </UL>
-<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 </UL>
@@ -516,13 +518,13 @@ Global Symbols
 <P><STRONG><a name="[68]"></a>xTaskRemoveFromEventList</STRONG> (Thumb, 330 bytes, Stack size 12 bytes, tasks.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = xTaskRemoveFromEventList
 </UL>
-<BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceiveFromISR
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceiveFromISR
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGiveFromISR
 <LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSendFromISR
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericReset
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvUnlockQueue
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 </UL>
@@ -535,9 +537,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[5f]"></a>vTaskInternalSetTimeOutState</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, tasks.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR><BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
 <LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskCheckForTimeOut
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 </UL>
@@ -549,8 +551,8 @@ Global Symbols
 <LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortEnterCritical
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskInternalSetTimeOutState
 </UL>
-<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 </UL>
@@ -682,8 +684,10 @@ Global Symbols
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspendAll
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KeyboardTx
-<LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
+<BR>[Called By]<UL><LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KeyboardTx
+<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LettersTx
+<LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Rtos_Transmiter_SendString
 </UL>
 
 <P><STRONG><a name="[6f]"></a>xQueueGenericSendFromISR</STRONG> (Thumb, 142 bytes, Stack size 56 bytes, queue.o(.text), UNUSED)
@@ -714,11 +718,14 @@ Global Symbols
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspendAll
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UartTxTask
+<BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Rtos_Transmiter_SendString
 </UL>
 
-<P><STRONG><a name="[74]"></a>xQueueSemaphoreTake</STRONG> (Thumb, 222 bytes, Stack size 40 bytes, queue.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueEmpty
+<P><STRONG><a name="[24]"></a>xQueueSemaphoreTake</STRONG> (Thumb, 222 bytes, Stack size 40 bytes, queue.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 92 + Unknown Stack Size
+<LI>Call Chain = xQueueSemaphoreTake &rArr; vTaskPlaceOnEventList &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
+</UL>
+<BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueEmpty
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvUnlockQueue
 <LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortYield (via Veneer)
 <LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortExitCritical
@@ -730,8 +737,10 @@ Global Symbols
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspendAll
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 </UL>
+<BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Rtos_Transmiter_SendString
+</UL>
 
-<P><STRONG><a name="[75]"></a>xQueuePeek</STRONG> (Thumb, 234 bytes, Stack size 48 bytes, queue.o(.text), UNUSED)
+<P><STRONG><a name="[74]"></a>xQueuePeek</STRONG> (Thumb, 234 bytes, Stack size 48 bytes, queue.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCopyDataFromQueue
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueEmpty
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvUnlockQueue
@@ -746,29 +755,29 @@ Global Symbols
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 </UL>
 
-<P><STRONG><a name="[76]"></a>xQueueReceiveFromISR</STRONG> (Thumb, 130 bytes, Stack size 48 bytes, queue.o(.text), UNUSED)
+<P><STRONG><a name="[75]"></a>xQueueReceiveFromISR</STRONG> (Thumb, 130 bytes, Stack size 48 bytes, queue.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCopyDataFromQueue
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskRemoveFromEventList
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxTaskGetNumberOfTasks
 </UL>
 
-<P><STRONG><a name="[77]"></a>xQueuePeekFromISR</STRONG> (Thumb, 44 bytes, Stack size 32 bytes, queue.o(.text), UNUSED)
+<P><STRONG><a name="[76]"></a>xQueuePeekFromISR</STRONG> (Thumb, 44 bytes, Stack size 32 bytes, queue.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCopyDataFromQueue
 </UL>
 
-<P><STRONG><a name="[78]"></a>uxQueueMessagesWaiting</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, queue.o(.text), UNUSED)
+<P><STRONG><a name="[77]"></a>uxQueueMessagesWaiting</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, queue.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortExitCritical
 <LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortEnterCritical
 </UL>
 
-<P><STRONG><a name="[79]"></a>uxQueueSpacesAvailable</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, queue.o(.text), UNUSED)
+<P><STRONG><a name="[78]"></a>uxQueueSpacesAvailable</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, queue.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortExitCritical
 <LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortEnterCritical
 </UL>
 
 <P><STRONG><a name="[bb]"></a>uxQueueMessagesWaitingFromISR</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, queue.o(.text), UNUSED)
 
-<P><STRONG><a name="[7a]"></a>vQueueDelete</STRONG> (Thumb, 18 bytes, Stack size 16 bytes, queue.o(.text), UNUSED)
+<P><STRONG><a name="[79]"></a>vQueueDelete</STRONG> (Thumb, 18 bytes, Stack size 16 bytes, queue.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortFree
 </UL>
 
@@ -790,8 +799,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
 <LI>Call Chain = xPortStartScheduler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortStartFirstTask (via Veneer)
-<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvSetupTimerInterrupt
+<BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortStartFirstTask (via Veneer)
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvSetupTimerInterrupt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskStartScheduler
 </UL>
@@ -805,10 +814,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_common_disable_irq (via Veneer)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxQueueSpacesAvailable
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxQueueMessagesWaiting
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxQueueSpacesAvailable
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxQueueMessagesWaiting
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericReset
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueEmpty
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueFull
@@ -829,7 +837,8 @@ Global Symbols
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelete
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCheckTasksWaitingTermination
 <LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
-<LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
+<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 </UL>
@@ -837,12 +846,11 @@ Global Symbols
 <P><STRONG><a name="[42]"></a>vPortExitCritical</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, port.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = vPortExitCritical
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_common_enable_irq (via Veneer)
+<BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_common_enable_irq (via Veneer)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxQueueSpacesAvailable
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxQueueMessagesWaiting
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxQueueSpacesAvailable
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxQueueMessagesWaiting
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericReset
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueEmpty
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueFull
@@ -863,7 +871,8 @@ Global Symbols
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelete
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCheckTasksWaitingTermination
 <LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
-<LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
+<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 </UL>
@@ -872,11 +881,11 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 80 + Unknown Stack Size
 <LI>Call Chain = pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvHeapInit
+<BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvHeapInit
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspendAll
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortCalloc
+<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortCalloc
 <LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCreateTask
 <LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericCreate
 </UL>
@@ -888,7 +897,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspendAll
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vQueueDelete
+<BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vQueueDelete
 <LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvDeleteTCB
 <LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCreateTask
 </UL>
@@ -897,9 +906,9 @@ Global Symbols
 
 <P><STRONG><a name="[c1]"></a>vPortInitialiseBlocks</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heap_2.o(.text), UNUSED)
 
-<P><STRONG><a name="[7f]"></a>pvPortCalloc</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, heap_2.o(.text), UNUSED)
+<P><STRONG><a name="[7e]"></a>pvPortCalloc</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, heap_2.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod (via Veneer)
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr (via Veneer)
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr (via Veneer)
 <LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortMalloc
 </UL>
 
@@ -910,34 +919,21 @@ Global Symbols
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCopyDataToQueue (via Veneer)
 </UL>
 
-<P><STRONG><a name="[81]"></a>__rt_memcpy</STRONG> (ARM, 212 bytes, Stack size 0 bytes, rt_memcpy.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<P><STRONG><a name="[80]"></a>__rt_memcpy</STRONG> (ARM, 212 bytes, Stack size 0 bytes, rt_memcpy.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 </UL>
 
 <P><STRONG><a name="[c3]"></a>_memcpy_lastbytes</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memcpy.o(.text), UNUSED)
 
-<P><STRONG><a name="[2c]"></a>__aeabi_memcpy4</STRONG> (ARM, 0 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_memcpy4
-</UL>
-<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_memcpy
-<LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KeyboardTx (via Veneer)
-</UL>
-
-<P><STRONG><a name="[c4]"></a>__aeabi_memcpy8</STRONG> (ARM, 0 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED)
-
-<P><STRONG><a name="[c5]"></a>__rt_memcpy_w</STRONG> (ARM, 100 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED)
-
-<P><STRONG><a name="[c6]"></a>_memcpy_lastbytes_aligned</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memcpy_w.o(.text), UNUSED)
-
-<P><STRONG><a name="[80]"></a>__aeabi_memclr</STRONG> (ARM, 0 bytes, Stack size 0 bytes, rt_memclr.o(.text), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortCalloc (via Veneer)
+<P><STRONG><a name="[7f]"></a>__aeabi_memclr</STRONG> (ARM, 0 bytes, Stack size 0 bytes, rt_memclr.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortCalloc (via Veneer)
 </UL>
 
 <P><STRONG><a name="[82]"></a>__rt_memclr</STRONG> (ARM, 64 bytes, Stack size 0 bytes, rt_memclr.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset_w
 </UL>
 
-<P><STRONG><a name="[c7]"></a>_memset</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memclr.o(.text), UNUSED)
+<P><STRONG><a name="[c4]"></a>_memset</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memclr.o(.text), UNUSED)
 
 <P><STRONG><a name="[3c]"></a>__aeabi_memclr4</STRONG> (ARM, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = __aeabi_memclr4
@@ -945,23 +941,33 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCreateTask (via Veneer)
 </UL>
 
-<P><STRONG><a name="[c8]"></a>__aeabi_memclr8</STRONG> (ARM, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
+<P><STRONG><a name="[c5]"></a>__aeabi_memclr8</STRONG> (ARM, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
 
-<P><STRONG><a name="[c9]"></a>__rt_memclr_w</STRONG> (ARM, 84 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
+<P><STRONG><a name="[c6]"></a>__rt_memclr_w</STRONG> (ARM, 84 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
 
 <P><STRONG><a name="[83]"></a>_memset_w</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_memclr
 </UL>
 
-<P><STRONG><a name="[ca]"></a>__aeabi_idiv</STRONG> (ARM, 0 bytes, Stack size 8 bytes, aeabi_sdiv.o(.text), UNUSED)
+<P><STRONG><a name="[c7]"></a>__aeabi_idiv</STRONG> (ARM, 0 bytes, Stack size 8 bytes, aeabi_sdiv.o(.text), UNUSED)
 
-<P><STRONG><a name="[cb]"></a>__aeabi_idivmod</STRONG> (ARM, 384 bytes, Stack size 8 bytes, aeabi_sdiv.o(.text), UNUSED)
+<P><STRONG><a name="[c8]"></a>__aeabi_idivmod</STRONG> (ARM, 384 bytes, Stack size 8 bytes, aeabi_sdiv.o(.text), UNUSED)
 
-<P><STRONG><a name="[cc]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[c9]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[cd]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[ca]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[ce]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[cb]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+
+<P><STRONG><a name="[81]"></a>__aeabi_memcpy4</STRONG> (ARM, 0 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_memcpy
+</UL>
+
+<P><STRONG><a name="[cc]"></a>__aeabi_memcpy8</STRONG> (ARM, 0 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED)
+
+<P><STRONG><a name="[cd]"></a>__rt_memcpy_w</STRONG> (ARM, 100 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED)
+
+<P><STRONG><a name="[ce]"></a>_memcpy_lastbytes_aligned</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memcpy_w.o(.text), UNUSED)
 
 <P><STRONG><a name="[1a]"></a>__user_setup_stackheap</STRONG> (ARM, 96 bytes, Stack size 8 bytes, sys_stackheap_outer.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
@@ -1006,19 +1012,18 @@ Global Symbols
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__arm_div5
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__arm_div8
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortCalloc (via Veneer)
+<BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortCalloc (via Veneer)
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericReset (via Veneer)
 <LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericCreate (via Veneer)
 <LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_InitWithInt (via Veneer)
 </UL>
 
-<P><STRONG><a name="[7c]"></a>vPortStartFirstTask</STRONG> (ARM, 0 bytes, Stack size unknown bytes, portasm.o(PORT_ASM))
+<P><STRONG><a name="[7b]"></a>vPortStartFirstTask</STRONG> (ARM, 0 bytes, Stack size unknown bytes, portasm.o(PORT_ASM))
 <BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortStartScheduler (via Veneer)
 </UL>
 
 <P><STRONG><a name="[43]"></a>vPortYield</STRONG> (ARM, 0 bytes, Stack size unknown bytes, portasm.o(PORT_ASM))
-<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek (via Veneer)
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake (via Veneer)
+<BR><BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek (via Veneer)
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericReset (via Veneer)
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGenericNotify (via Veneer)
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGenericNotifyWait (via Veneer)
@@ -1031,9 +1036,10 @@ Global Symbols
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelete (via Veneer)
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIdleTask (via Veneer)
 <LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList (via Veneer)
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake (via Veneer)
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive (via Veneer)
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend (via Veneer)
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay (via Veneer)
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay (via Veneer)
 </UL>
 
 <P><STRONG><a name="[5]"></a>vPortYieldProcessor</STRONG> (ARM, 0 bytes, Stack size unknown bytes, portasm.o(PORT_ASM))
@@ -1048,7 +1054,7 @@ Global Symbols
 <LI><a href="#[31]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskStartScheduler (via Veneer)
 </UL>
 
-<P><STRONG><a name="[7d]"></a>__ARM_common_enable_irq</STRONG> (ARM, 16 bytes, Stack size 0 bytes, port.o(i.__ARM_common_enable_irq))
+<P><STRONG><a name="[7c]"></a>__ARM_common_enable_irq</STRONG> (ARM, 16 bytes, Stack size 0 bytes, port.o(i.__ARM_common_enable_irq))
 <BR><BR>[Called By]<UL><LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortExitCritical (via Veneer)
 </UL>
 
@@ -1164,7 +1170,7 @@ Local Symbols
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnUnorderedEventList
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskPlaceOnEventList
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskDelayUntil
-<LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 </UL>
 
 <P><STRONG><a name="[52]"></a>prvTaskIsTaskSuspended</STRONG> (Thumb, 96 bytes, Stack size 4 bytes, tasks.o(.text), UNUSED)
@@ -1220,8 +1226,8 @@ Local Symbols
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskMissedYield
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskRemoveFromEventList
 </UL>
-<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 </UL>
@@ -1250,8 +1256,8 @@ Local Symbols
 <BR>[Calls]<UL><LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortExitCritical
 <LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortEnterCritical
 </UL>
-<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
+<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 </UL>
 
@@ -1260,17 +1266,17 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy (via Veneer)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeekFromISR
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceiveFromISR
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
+<BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeekFromISR
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceiveFromISR
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueuePeek
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueReceive
 </UL>
 
-<P><STRONG><a name="[7b]"></a>prvSetupTimerInterrupt</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, port.o(.text))
+<P><STRONG><a name="[7a]"></a>prvSetupTimerInterrupt</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, port.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortStartScheduler
 </UL>
 
-<P><STRONG><a name="[7e]"></a>prvHeapInit</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, heap_2.o(.text))
+<P><STRONG><a name="[7d]"></a>prvHeapInit</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, heap_2.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pvPortMalloc
 </UL>
 

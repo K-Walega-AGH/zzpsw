@@ -1,6 +1,6 @@
 Dependencies for Project 'RTOSDemo', Target 'RTOSDemo_THUMB': (DO NOT MODIFY !)
 F (.\Startup.s)(0x68FBB8FC)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -I..\..\Source\portable\RVDS\ARM7_LPC21xx-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips--list .\startup.lst --xref -o .\bin\startup.o --depend .\bin\startup.d)
-F (.\main.c)(0x6941481D)(--thumb -c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I. -I..\..\Source\portable\RVDS\ARM7_LPC21xx -I..\Common\include -I..\..\Source\include-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-DARM7_LPC21xx_KEIL_RVDS -DKEIL_THUMB_INTERWORK -o .\bin\main.o --omf_browse .\bin\main.crf --depend .\bin\main.d)
+F (.\main.c)(0x6950291C)(--thumb -c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I. -I..\..\Source\portable\RVDS\ARM7_LPC21xx -I..\Common\include -I..\..\Source\include-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-DARM7_LPC21xx_KEIL_RVDS -DKEIL_THUMB_INTERWORK -o .\bin\main.o --omf_browse .\bin\main.crf --depend .\bin\main.d)
 I (C:\Users\Kacper\Desktop\wzpsw\zzpsw\FreeRTOS\Source\include\FreeRTOS.h)(0x68FBB8F2)
 I (C:\Keil\ARM\ARMCC\include\stddef.h)(0x51C80BA4)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C80BA4)
@@ -19,6 +19,7 @@ I (C:\Users\Kacper\Desktop\wzpsw\zzpsw\FreeRTOS\Demo\ARM7_LPC2129_Keil_RVDS\keyb
 I (C:\Users\Kacper\Desktop\wzpsw\zzpsw\FreeRTOS\Source\include\semphr.h)(0x68FBB8F7)
 I (C:\Users\Kacper\Desktop\wzpsw\zzpsw\FreeRTOS\Source\include\queue.h)(0x68FBB8FA)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C80BA4)
+I (C:\Users\Kacper\Desktop\wzpsw\zzpsw\FreeRTOS\Demo\ARM7_LPC2129_Keil_RVDS\led.h)(0x693E040C)
 F (.\led.c)(0x693E0371)(--thumb -c --cpu ARM7TDMI -D__EVAL -g -O0 --apcs=interwork -I. -I..\..\Source\portable\RVDS\ARM7_LPC21xx -I..\Common\include -I..\..\Source\include-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Philips-DARM7_LPC21xx_KEIL_RVDS -DKEIL_THUMB_INTERWORK -o .\bin\led.o --omf_browse .\bin\led.crf --depend .\bin\led.d)
 I (C:\Users\Kacper\Desktop\wzpsw\zzpsw\FreeRTOS\Demo\ARM7_LPC2129_Keil_RVDS\led.h)(0x693E040C)
 I (C:\Keil\ARM\Inc\Philips\LPC21xx.H)(0x51C80D9C)
