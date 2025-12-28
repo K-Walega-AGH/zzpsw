@@ -5,6 +5,8 @@
 #include "keyboard.h"
 #include "semphr.h"
 #include "stdio.h"
+#include "led.h"
+
 
 xSemaphoreHandle xSemaphore;
 
@@ -32,7 +34,9 @@ void LettersTx (void *pvParameters){
 	unsigned int uiPassedTime=0;
 	while(1){
 		uiPassedTime = (unsigned int)xTaskGetTickCount();
-		xQueueSend(xQueue, cBuffer, 0);
+		if (xQueueSend(xQueue, cBuffer, 0) == errQUEUE_FULL){
+			Led_Toggle(0);
+		}
 		uiPassedTime = (unsigned int)xTaskGetTickCount() - uiPassedTime;
 		CopyString("-ABCDEEFGH-:",cBuffer);
 		AppendUIntToString(uiPassedTime,cBuffer);
@@ -53,9 +57,11 @@ void KeyboardTx (void *pvParameters) {
 }
 
 int main( void ){
+	Led_Init();
 	UART_InitWithInt(300);
 	vSemaphoreCreateBinary(xSemaphore);
 	xQueue = xQueueCreate(QUEUE_LEN, STR_LEN);
+	
 	xTaskCreate(LettersTx, NULL, 128, NULL, 1, NULL );
 	xTaskCreate(KeyboardTx, NULL, 128, NULL, 1, NULL );
 	xTaskCreate(Rtos_Transmiter_SendString, NULL, 128, NULL, 1, NULL );

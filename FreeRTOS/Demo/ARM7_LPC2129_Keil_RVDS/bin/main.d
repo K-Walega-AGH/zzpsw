@@ -17,3 +17,4 @@
 .\bin\main.o: ..\..\Source\include\semphr.h
 .\bin\main.o: ..\..\Source\include\queue.h
 .\bin\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\bin\main.o: led.h
