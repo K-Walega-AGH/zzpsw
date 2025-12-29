@@ -3,82 +3,110 @@
 #include "led.h"
 #include "timer_interrupts.h"
 
-#define DETECTOR_bm (1<<10)
+#define PINDET_BM (1<<10)
 
-enum ServoState {CALLIB, IDDLE, IN_PROGRESS};
-struct Servo
-{
-enum ServoState eState;
-unsigned int uiCurrentPosition;
-unsigned int uiDesiredPosition;
+enum ServoState {CALLIB, OFFSET_CALLIB, IDLE, IN_PROGRESS};
+enum DetectorState{ACTIVE, INACTIVE};
+
+struct Servo {
+	enum ServoState eState; 
+	unsigned int uiCurrentPosition;
+	unsigned int uiDesiredPosition;
 };
-struct Servo sServo;
 
-enum State {ACTIVE, INACTIVE};
-void DetectorInit(void){
+static struct Servo sServo;
 
-	IO0DIR=IO0DIR&(~DETECTOR_bm);
+static void DetectorInit(void)
+{
+	IO0DIR &= ~PINDET_BM;
 }
 
-enum State eReadDetector (void){
-
-	if((IO0PIN&DETECTOR_bm) == 0){
-		return(INACTIVE);
-	}else{
-		return(ACTIVE);
+static enum DetectorState eReadDetector(void)
+{
+	if ((IO0PIN & PINDET_BM) != 0)
+	{
+		return INACTIVE;
+	}
+	else
+	{
+		return ACTIVE;
 	}
 }
 
-void Servo_Callib(void){
-
-	sServo.eState = CALLIB;
-	while(eReadDetector()==INACTIVE);
-}
-
-void Servo_GoTo(unsigned int uiPosition){
-
-	sServo.eState = IN_PROGRESS;
-	sServo.uiDesiredPosition = uiPosition;
-}
-
-void SerwoAutomat(){
-
-	 switch(sServo.eState){
-		case IDDLE: 	
-			if(sServo.uiCurrentPosition != sServo.uiDesiredPosition){
-				sServo.eState = IN_PROGRESS;
-			}else{
-				sServo.eState = IDDLE;
+static void Automat(void)
+{
+	switch(sServo.eState)
+	{
+		case CALLIB:
+			sServo.uiCurrentPosition = 0;
+			sServo.uiDesiredPosition = 0;
+			
+			if (eReadDetector() == INACTIVE)
+			{
+				LedStepLeft();
+			}
+			else
+			{
+				sServo.eState = IDLE;
 			}
 			break;
-		case IN_PROGRESS: 
-			if(sServo.uiCurrentPosition > sServo.uiDesiredPosition){
-				Led_StepLeft();
-				sServo.eState = IN_PROGRESS;
-				sServo.uiCurrentPosition--;
-			}else if(sServo.uiCurrentPosition < sServo.uiDesiredPosition){
-				sServo.eState = IN_PROGRESS;
-				Led_StepRight();
-				sServo.uiCurrentPosition++;
-			}else{
-				sServo.eState = IDDLE;
-			}
-			break;
-		case CALLIB: 
-			if(eReadDetector()==INACTIVE){
-				Led_StepRight();
-			}else{
-				sServo.eState = IDDLE;
+		case OFFSET_CALLIB:
+
+			if (sServo.uiCurrentPosition == 12)
+			{
 				sServo.uiCurrentPosition = 0;
-				sServo.uiDesiredPosition = 0;				
-			}	
+				sServo.uiDesiredPosition = 0;
+				sServo.eState = IDLE;
+			}
+			else
+			{
+				sServo.uiCurrentPosition++;
+				LedStepRight();
+			}
 			break;
-	 }
+		case IDLE:
+			if (sServo.uiCurrentPosition != sServo.uiDesiredPosition)
+			{
+				sServo.eState = IN_PROGRESS;
+			}
+			break;
+		case IN_PROGRESS:
+			if (sServo.uiCurrentPosition < sServo.uiDesiredPosition)
+			{
+				sServo.uiCurrentPosition++;
+				LedStepRight();
+			}
+			else if (sServo.uiCurrentPosition > sServo.uiDesiredPosition)
+			{
+				sServo.uiCurrentPosition--;
+				LedStepLeft();
+			}
+			else
+			{
+				sServo.eState = IDLE;
+			}
+			break;
+	}
 }
-void Servo_Init(unsigned int uiServoFrequency){
 
-	Timer0Interrupts_Init(1000000/uiServoFrequency, &SerwoAutomat);
-	LedInt();
+void Servo_Init(unsigned int uiServoFrequency)
+{
+	Led_Init();
 	DetectorInit();
+	Timer1Interrupts_Init(1000/uiServoFrequency, Automat);
 	Servo_Callib();
+}
+
+void Servo_Callib(void)
+{
+	sServo.eState = CALLIB;
+	while(sServo.eState == CALLIB);
+}
+
+void Servo_GoTo(unsigned int uiPosition)
+{
+	sServo.uiDesiredPosition = uiPosition;
+	
+	sServo.eState = IN_PROGRESS;
+	while(sServo.eState == IN_PROGRESS);
 }
