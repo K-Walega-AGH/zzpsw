@@ -17,6 +17,7 @@ QueueHandle_t xQueue;
 enum ServoState {CALLIB, OFFSET_CALLIB, IDLE, IN_PROGRESS};
 enum DetectorState{ACTIVE, INACTIVE};
 unsigned int uiServoFreq = 0;
+unsigned int uiStepDelayTicks = 0;
 
 struct Servo {
 	enum ServoState eState; 
@@ -91,11 +92,13 @@ static enum DetectorState eReadDetector(void)
 				{
 					sServo.uiCurrentPosition++;
 					LedStepRight();
+					vTaskDelay(uiStepDelayTicks);
 				}
 				else if (sServo.uiCurrentPosition > sServo.uiDesiredPosition)
 				{
 					sServo.uiCurrentPosition--;
 					LedStepLeft();
+					vTaskDelay(uiStepDelayTicks);
 				}
 				else
 				{
@@ -137,4 +140,13 @@ void Servo_GoTo(unsigned int uiPosition)
 
 void Servo_Wait(unsigned int uiTickToWait){
 	vTaskDelay(uiTickToWait);
+}
+
+void Servo_Speed(unsigned int uiTicksPerStep)
+{
+
+    if (uiTicksPerStep == 0)
+        uiTicksPerStep = 1;
+
+    uiStepDelayTicks = uiTicksPerStep;
 }
