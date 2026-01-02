@@ -134,3 +134,7 @@ void Servo_GoTo(unsigned int uiPosition)
 	xSemaphoreTake(xSemaphore, portMAX_DELAY);
 
 }
+
+void Servo_Wait(unsigned int uiTickToWait){
+	vTaskDelay(uiTickToWait);
+}
