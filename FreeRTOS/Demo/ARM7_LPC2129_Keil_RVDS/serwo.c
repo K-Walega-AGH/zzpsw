@@ -2,11 +2,19 @@
 #include "serwo.h"
 #include "led.h"
 #include "timer_interrupts.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+
 
 #define PINDET_BM (1<<10)
 
+xSemaphoreHandle xSemaphore;
+
+
 enum ServoState {CALLIB, OFFSET_CALLIB, IDLE, IN_PROGRESS};
 enum DetectorState{ACTIVE, INACTIVE};
+unsigned int uiServoFreq = 0;
 
 struct Servo {
 	enum ServoState eState; 
@@ -33,80 +41,86 @@ static enum DetectorState eReadDetector(void)
 	}
 }
 
-static void Automat(void)
+ void Automat(void *pvParameters)
 {
-	switch(sServo.eState)
-	{
-		case CALLIB:
-			sServo.uiCurrentPosition = 0;
-			sServo.uiDesiredPosition = 0;
-			
-			if (eReadDetector() == INACTIVE)
-			{
-				LedStepLeft();
-			}
-			else
-			{
-				sServo.eState = IDLE;
-			}
-			break;
-		case OFFSET_CALLIB:
-
-			if (sServo.uiCurrentPosition == 12)
-			{
+	while(1){
+		switch(sServo.eState)
+		{
+			case CALLIB:
 				sServo.uiCurrentPosition = 0;
 				sServo.uiDesiredPosition = 0;
-				sServo.eState = IDLE;
-			}
-			else
-			{
-				sServo.uiCurrentPosition++;
-				LedStepRight();
-			}
-			break;
-		case IDLE:
-			if (sServo.uiCurrentPosition != sServo.uiDesiredPosition)
-			{
-				sServo.eState = IN_PROGRESS;
-			}
-			break;
-		case IN_PROGRESS:
-			if (sServo.uiCurrentPosition < sServo.uiDesiredPosition)
-			{
-				sServo.uiCurrentPosition++;
-				LedStepRight();
-			}
-			else if (sServo.uiCurrentPosition > sServo.uiDesiredPosition)
-			{
-				sServo.uiCurrentPosition--;
-				LedStepLeft();
-			}
-			else
-			{
-				sServo.eState = IDLE;
-			}
-			break;
+				
+				if (eReadDetector() == INACTIVE)
+				{
+					LedStepLeft();
+				}
+				else
+				{
+					sServo.eState = IDLE;
+				}
+				break;
+			case OFFSET_CALLIB:
+
+				if (sServo.uiCurrentPosition == 12)
+				{
+					sServo.uiCurrentPosition = 0;
+					sServo.uiDesiredPosition = 0;
+					sServo.eState = IDLE;
+				}
+				else
+				{
+					sServo.uiCurrentPosition++;
+					LedStepRight();
+				}
+				break;
+			case IDLE:
+				if (sServo.uiCurrentPosition != sServo.uiDesiredPosition)
+				{
+					sServo.eState = IN_PROGRESS;
+				}
+				xSemaphoreGive(xSemaphore);
+				break;
+			case IN_PROGRESS:
+				if (sServo.uiCurrentPosition < sServo.uiDesiredPosition)
+				{
+					sServo.uiCurrentPosition++;
+					LedStepRight();
+				}
+				else if (sServo.uiCurrentPosition > sServo.uiDesiredPosition)
+				{
+					sServo.uiCurrentPosition--;
+					LedStepLeft();
+				}
+				else
+				{
+					sServo.eState = IDLE;
+				}
+				break;
+		}
+		vTaskDelay(pdMS_TO_TICKS(uiServoFreq));
 	}
 }
 
 void Servo_Init(unsigned int uiServoFrequency)
 {
+	uiServoFreq = 1000/uiServoFrequency;
+	vSemaphoreCreateBinary(xSemaphore);
 	Led_Init();
 	DetectorInit();
-	Timer1Interrupts_Init(1000/uiServoFrequency, Automat);
+	xTaskCreate(Automat, NULL, 128, NULL, 1, NULL);
+
 	Servo_Callib();
 }
 
 void Servo_Callib(void)
 {
 	sServo.eState = CALLIB;
-	while(sServo.eState == CALLIB);
+	xSemaphoreTake(xSemaphore, portMAX_DELAY);
 }
 
 void Servo_GoTo(unsigned int uiPosition)
 {
 	sServo.uiDesiredPosition = uiPosition;
-	
+	xSemaphoreTake(xSemaphore, portMAX_DELAY);
 	sServo.eState = IN_PROGRESS;
-	while(sServo.eState == IN_PROGRESS);
 }
