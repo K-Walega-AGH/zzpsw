@@ -9,8 +9,10 @@
 
 #define PINDET_BM (1<<10)
 
-xSemaphoreHandle xSemaphore;
+#define QUEUE_LEN   8
 
+xSemaphoreHandle xSemaphore;
+QueueHandle_t xQueue;
 
 enum ServoState {CALLIB, OFFSET_CALLIB, IDLE, IN_PROGRESS};
 enum DetectorState{ACTIVE, INACTIVE};
@@ -43,6 +45,7 @@ static enum DetectorState eReadDetector(void)
 
  void Automat(void *pvParameters)
 {
+	unsigned int uiNewPos;
 	while(1){
 		switch(sServo.eState)
 		{
@@ -76,8 +79,10 @@ static enum DetectorState eReadDetector(void)
 				}
 				break;
 			case IDLE:
-				if (sServo.uiCurrentPosition != sServo.uiDesiredPosition)
+
+				if (xQueueReceive(xQueue, &uiNewPos, 0) == pdTRUE)
 				{
+					sServo.uiDesiredPosition = uiNewPos;
 					sServo.eState = IN_PROGRESS;
 				}
 				break;
@@ -108,6 +113,7 @@ void Servo_Init(unsigned int uiServoFrequency)
 {
 	uiServoFreq = 1000/uiServoFrequency;
 	vSemaphoreCreateBinary(xSemaphore);
+	xQueue = xQueueCreate(QUEUE_LEN, sizeof(unsigned int));
 	Led_Init();
 	DetectorInit();
 	xTaskCreate(Automat, NULL, 128, NULL, 1, NULL);
@@ -123,8 +129,8 @@ void Servo_Callib(void)
 
 void Servo_GoTo(unsigned int uiPosition)
 {
-	sServo.uiDesiredPosition = uiPosition;
-	sServo.eState = IN_PROGRESS;
+	xQueueSend(xQueue, &uiPosition, portMAX_DELAY);
+	//sServo.eState = IN_PROGRESS;
 	xSemaphoreTake(xSemaphore, portMAX_DELAY);
 
 }

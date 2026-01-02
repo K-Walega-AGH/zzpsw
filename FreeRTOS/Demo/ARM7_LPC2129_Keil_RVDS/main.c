@@ -4,6 +4,7 @@
 #include "serwo.h"
 
 //	#define configTICK_RATE_HZ			( ( TickType_t ) 1000 )	--- informacja z pliku konfiguracyjnego -> 1 tick oznacza wtedy 1ms
+// komentarz aby oddac zadanie 3 - po sprawdzeniu define w pliku konfiguracyjym wystarczy tylko zmienic servoinit na 200 w 
 
 void Keyboard (void *pvParameters){
 	enum KeyboardState eCurrentState;
