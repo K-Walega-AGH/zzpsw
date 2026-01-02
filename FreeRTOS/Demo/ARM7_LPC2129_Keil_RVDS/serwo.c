@@ -144,9 +144,5 @@ void Servo_Wait(unsigned int uiTickToWait){
 
 void Servo_Speed(unsigned int uiTicksPerStep)
 {
-
-    if (uiTicksPerStep == 0)
-        uiTicksPerStep = 1;
-
     uiStepDelayTicks = uiTicksPerStep;
 }
