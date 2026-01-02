@@ -3,6 +3,8 @@
 #include "keyboard.h"
 #include "serwo.h"
 
+//	#define configTICK_RATE_HZ			( ( TickType_t ) 1000 )	--- informacja z pliku konfiguracyjnego -> 1 tick oznacza wtedy 1ms
+
 void Keyboard (void *pvParameters){
 	enum KeyboardState eCurrentState;
 	enum KeyboardState ePreviousState = RELASED;
@@ -40,7 +42,7 @@ void Keyboard (void *pvParameters){
 int main( void ){
 	__enable_irq();
 	KeyboardInit();
-	Servo_Init(100);
+	Servo_Init(200);
 	xTaskCreate(Keyboard, NULL, 128, NULL, 1, NULL);
 	vTaskStartScheduler();
 	while(1);

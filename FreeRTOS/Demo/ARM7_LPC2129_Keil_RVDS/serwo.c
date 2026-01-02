@@ -57,6 +57,8 @@ static enum DetectorState eReadDetector(void)
 				else
 				{
 					sServo.eState = IDLE;
+					xSemaphoreGive(xSemaphore);
+
 				}
 				break;
 			case OFFSET_CALLIB:
@@ -78,7 +80,6 @@ static enum DetectorState eReadDetector(void)
 				{
 					sServo.eState = IN_PROGRESS;
 				}
-				xSemaphoreGive(xSemaphore);
 				break;
 			case IN_PROGRESS:
 				if (sServo.uiCurrentPosition < sServo.uiDesiredPosition)
@@ -94,10 +95,12 @@ static enum DetectorState eReadDetector(void)
 				else
 				{
 					sServo.eState = IDLE;
+					xSemaphoreGive(xSemaphore);
+
 				}
 				break;
 		}
-		vTaskDelay(pdMS_TO_TICKS(uiServoFreq));
+		vTaskDelay(uiServoFreq);
 	}
 }
 
@@ -121,6 +124,7 @@ void Servo_Callib(void)
 void Servo_GoTo(unsigned int uiPosition)
 {
 	sServo.uiDesiredPosition = uiPosition;
-	xSemaphoreTake(xSemaphore, portMAX_DELAY);
 	sServo.eState = IN_PROGRESS;
+	xSemaphoreTake(xSemaphore, portMAX_DELAY);
+
 }
