@@ -396,10 +396,10 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>22</ColumnNumber>
+      <ColumnNumber>6</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>25</TopLine>
-      <CurrentLine>36</CurrentLine>
+      <TopLine>13</TopLine>
+      <CurrentLine>29</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -433,7 +433,7 @@
       <Focus>0</Focus>
       <ColumnNumber>16</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>66</TopLine>
+      <TopLine>69</TopLine>
       <CurrentLine>81</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\led.c</PathWithFileName>
@@ -481,7 +481,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>19</TopLine>
+      <TopLine>1</TopLine>
       <CurrentLine>49</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\keyboard.c</PathWithFileName>
@@ -495,10 +495,10 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>44</ColumnNumber>
+      <ColumnNumber>32</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>117</TopLine>
-      <CurrentLine>137</CurrentLine>
+      <TopLine>116</TopLine>
+      <CurrentLine>136</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\serwo.c</PathWithFileName>
       <FilenameWithoutPath>serwo.c</FilenameWithoutPath>

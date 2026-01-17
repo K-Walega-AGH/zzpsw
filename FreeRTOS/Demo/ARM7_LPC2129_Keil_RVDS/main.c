@@ -26,13 +26,16 @@ void Keyboard (void *pvParameters){
 				break;
 				
 				case BUTTON_3: 
-				Servo_Speed(8);
+				Servo_Speed(80);
 				Servo_GoTo(12);
-				Servo_Speed(4);
+				Servo_Wait(1000);
+				Servo_Speed(40);
 				Servo_GoTo(24);
-				Servo_Speed(2);
+				Servo_Wait(1000);
+				Servo_Speed(20);
 				Servo_GoTo(36);
-				Servo_Speed(1);
+				Servo_Wait(1000);
+				Servo_Speed(10);
 				Servo_GoTo(0);
 				break;
 			

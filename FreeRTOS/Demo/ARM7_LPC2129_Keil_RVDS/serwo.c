@@ -11,13 +11,13 @@
 
 #define QUEUE_LEN   8
 
-xSemaphoreHandle xSemaphore;
-QueueHandle_t xQueue;
+QueueHandle_t xQueue; 
 
 enum ServoState {CALLIB, OFFSET_CALLIB, IDLE, IN_PROGRESS};
 enum DetectorState{ACTIVE, INACTIVE};
-unsigned int uiServoFreq = 0;
-unsigned int uiStepDelayTicks = 0;
+static unsigned int uiServoFreq;
+static unsigned int uiServoInitFreq;
+
 
 struct Servo {
 	enum ServoState eState; 
@@ -26,6 +26,13 @@ struct Servo {
 };
 
 static struct Servo sServo;
+
+enum DataType {POSITION, WAIT_TIME, SPEED,CALIBRATION};
+
+struct Control {
+	enum DataType eDataType;
+	unsigned int uiData;
+};
 
 static void DetectorInit(void)
 {
@@ -46,7 +53,7 @@ static enum DetectorState eReadDetector(void)
 
  void Automat(void *pvParameters)
 {
-	unsigned int uiNewPos;
+	struct Control sData;
 	while(1){
 		switch(sServo.eState)
 		{
@@ -61,7 +68,6 @@ static enum DetectorState eReadDetector(void)
 				else
 				{
 					sServo.eState = IDLE;
-					xSemaphoreGive(xSemaphore);
 
 				}
 				break;
@@ -80,31 +86,38 @@ static enum DetectorState eReadDetector(void)
 				}
 				break;
 			case IDLE:
-
-				if (xQueueReceive(xQueue, &uiNewPos, 0) == pdTRUE)
+				
+				if (xQueueReceive(xQueue, &sData,portMAX_DELAY) == pdTRUE)
 				{
-					sServo.uiDesiredPosition = uiNewPos;
+					sServo.uiDesiredPosition = (sData.eDataType == POSITION) ? sData.uiData : sServo.uiDesiredPosition;
+					vTaskDelay((sData.eDataType == WAIT_TIME) ? sData.uiData : 0);
+					uiServoFreq = (sData.eDataType == SPEED) ? sData.uiData : uiServoFreq;
+					sServo.eState = (sData.eDataType == CALIBRATION) ? CALLIB : IDLE;
+				}
+				
+				if (sServo.uiCurrentPosition != sServo.uiDesiredPosition)
+				{
 					sServo.eState = IN_PROGRESS;
 				}
+				
 				break;
+				
 			case IN_PROGRESS:
+
 				if (sServo.uiCurrentPosition < sServo.uiDesiredPosition)
 				{
 					sServo.uiCurrentPosition++;
 					LedStepRight();
-					vTaskDelay(uiStepDelayTicks);
 				}
 				else if (sServo.uiCurrentPosition > sServo.uiDesiredPosition)
 				{
 					sServo.uiCurrentPosition--;
 					LedStepLeft();
-					vTaskDelay(uiStepDelayTicks);
 				}
 				else
 				{
+					uiServoFreq = uiServoInitFreq;
 					sServo.eState = IDLE;
-					xSemaphoreGive(xSemaphore);
-
 				}
 				break;
 		}
@@ -115,34 +128,42 @@ static enum DetectorState eReadDetector(void)
 void Servo_Init(unsigned int uiServoFrequency)
 {
 	uiServoFreq = 1000/uiServoFrequency;
-	vSemaphoreCreateBinary(xSemaphore);
-	xQueue = xQueueCreate(QUEUE_LEN, sizeof(unsigned int));
+	uiServoInitFreq = uiServoFreq;
+	xQueue = xQueueCreate(QUEUE_LEN, sizeof(struct Control));
 	Led_Init();
 	DetectorInit();
-	xTaskCreate(Automat, NULL, 128, NULL, 1, NULL);
 
+	xTaskCreate(Automat, NULL, 256, NULL, 1, NULL);
 	Servo_Callib();
+	
 }
 
 void Servo_Callib(void)
 {
-	sServo.eState = CALLIB;
-	xSemaphoreTake(xSemaphore, portMAX_DELAY);
+	struct Control sData;
+	sData.eDataType = CALIBRATION;
+	xQueueSend(xQueue,&sData,portMAX_DELAY);
 }
 
 void Servo_GoTo(unsigned int uiPosition)
 {
-	xQueueSend(xQueue, &uiPosition, portMAX_DELAY);
-	//sServo.eState = IN_PROGRESS;
-	xSemaphoreTake(xSemaphore, portMAX_DELAY);
-
+	struct Control sData;
+	sData.eDataType = POSITION;
+	sData.uiData = uiPosition;
+	xQueueSend(xQueue,&sData,portMAX_DELAY);
 }
 
 void Servo_Wait(unsigned int uiTickToWait){
-	vTaskDelay(uiTickToWait);
+	struct Control sData;
+	sData.eDataType = WAIT_TIME;
+	sData.uiData = uiTickToWait;
+	xQueueSend(xQueue,&sData,portMAX_DELAY);
 }
 
 void Servo_Speed(unsigned int uiTicksPerStep)
 {
-    uiStepDelayTicks = uiTicksPerStep;
+	struct Control sData;
+	sData.eDataType = SPEED;
+	sData.uiData = uiTicksPerStep;
+	xQueueSend(xQueue,&sData,portMAX_DELAY);
 }
